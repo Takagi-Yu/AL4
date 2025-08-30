@@ -1,4 +1,5 @@
 #include "skydome.h"
+#include <cassert>
 
 void skydome::Initialize(Model* model, Camera* camera) {
 	assert(model);
