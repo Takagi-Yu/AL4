@@ -1,12 +1,10 @@
 #pragma once
-
 #include "KamataEngine.h"
 #include "Math.h"
 #include "Player.h"
 
 using namespace KamataEngine;
 
-// class Player;
 class GameScene;
 
 class Enemy {
@@ -25,17 +23,17 @@ public:
 	void Update();
 	// 描画
 	void Draw();
-	// 02_10 スライド14枚目
+	
 	AABB GetAABB();
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 	// 衝突応答
 	void OnCollision(const Player* player);
-	// 02_15 6枚目
+	
 	bool IsDead() const { return isDead_; }
-	// 02_15 20枚目
+	
 	bool IsCollisionDisabled() const { return isCollisionDisabled_; }
-	// 02_16 19
+	
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
@@ -71,16 +69,13 @@ private:
 	Behavior behavior_ = Behavior::kWalk;
 	Behavior behaviorRequest_ = Behavior::kUnknown;
 
-	// 02_15 15枚目
 	static inline const float kDefeatedTime = 0.6f;
 	static inline const float kDefeatedMotionAngleStart = 0.0f;
 	static inline const float kDefeatedMotionAngleEnd = -60.0f;
 	float counter_ = 0.0f; // カウンター
 
-	// 02_15 20枚目
 	bool isCollisionDisabled_ = false;
 
-	// 02_16 19
 	GameScene* gameScene_ = nullptr;
 
 	float turnFirstRotationY_ = 0.0f;

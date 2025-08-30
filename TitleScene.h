@@ -22,7 +22,6 @@ public:
 
 	void Draw();
 
-	// 02_12 26枚目
 	bool IsFinished() const { return finished_; }
 
 private:
@@ -34,15 +33,13 @@ private:
 	WorldTransform worldTransformPlayer_;
 
 	Model* modelPlayer_ = nullptr;
-	Model* modelTitle_ = nullptr;
+	//Model* modelTitle_ = nullptr;
 
 	float counter_ = 0.0f;
-	// 02_12 26枚目
+	
 	bool finished_ = false;
 
-	// 02_13 12枚目
 	Fade* fade_ = nullptr;
 
-	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
 };

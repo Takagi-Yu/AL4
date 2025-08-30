@@ -14,7 +14,6 @@ public:
 	void Update();
 	void Draw();
 
-	// 02_12 34枚目で実装
 	bool IsFinished() { return isFinished_; }
 
 private:
@@ -36,7 +35,7 @@ private:
 	// 移動の速さ
 	static inline const float kSpeed_ = 0.05f;
 
-	// 分割した1個分の角度(#include <numbers>)
+	// 分割した1個分の角度
 	static inline const float kAngleUnit_ = 2.0f * std::numbers::pi_v<float> / kNumParticles;
 
 	// 終了フラグ

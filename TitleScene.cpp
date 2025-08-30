@@ -4,14 +4,14 @@
 
 TitleScene::~TitleScene() {
 	delete modelPlayer_;
-	delete modelTitle_;
+	//delete modelTitle_;
 
 	delete fade_;
 }
 
 void TitleScene::Initialize() {
 
-	modelTitle_ = Model::CreateFromOBJ("titleFont", true);
+	//modelTitle_ = Model::CreateFromOBJ("titleFont", true);
 	modelPlayer_ = Model::CreateFromOBJ("player");
 
 	// カメラ初期化
@@ -35,21 +35,14 @@ void TitleScene::Initialize() {
 
 	worldTransformPlayer_.translation_.y = -10.0f;
 
-	// 02_13 12枚目
 	fade_ = new Fade();
 	fade_->Initialize();
 
-	// 02_13 22枚目
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
 void TitleScene::Update() {
 
-	// 02_12 27枚目
-	// 02_13 13枚目 27枚目で削除
-	//	fade_->Update();
-
-	// 02_13 27枚目
 	switch (phase_) {
 	case Phase::kFadeIn:
 		fade_->Update();
@@ -71,11 +64,6 @@ void TitleScene::Update() {
 		}
 		break;
 	}
-
-	//// 02_12 27枚目
-	// if (Input::GetInstance()->PushKey(DIK_SPACE)) {
-	//	finished_ = true;
-	// }
 
 	counter_ += 1.0f / 60.0f;
 	counter_ = std::fmod(counter_, kTimeTitleMove);
@@ -101,11 +89,10 @@ void TitleScene::Draw() {
 
 	Model::PreDraw(commandList);
 
-	modelTitle_->Draw(worldTransformTitle_, camera_);
+	//modelTitle_->Draw(worldTransformTitle_, camera_);
 	modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
 	Model::PostDraw();
 
-	// 02_13 13枚目
 	fade_->Draw();
 }

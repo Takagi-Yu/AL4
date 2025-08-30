@@ -42,7 +42,6 @@ void Enemy::Update() {
 		behaviorRequest_ = Behavior::kUnknown;
 	}
 
-	// 02_15 13枚目
 	switch (behavior_) {
 	// 歩行
 	case Behavior::kWalk:
@@ -65,7 +64,7 @@ void Enemy::Update() {
 			turnFirstRotationY_ = worldTransform_.rotation_.y;
 		}
 
-			    // 回転アニメーション
+	    // 回転アニメーション
 		worldTransform_.rotation_.x = std::sin(std::numbers::pi_v<float> * 2.0f * walkTimer / kWalkMotionTime);
 
 		// ワールド行列更新
@@ -74,7 +73,6 @@ void Enemy::Update() {
 		break;
 	// やられ
 	case Behavior::kDefeated:
-		// 02_15 15枚目
 		counter_ += 1.0f / 60.0f;
 
 		worldTransform_.rotation_.y += 0.3f;
@@ -95,7 +93,6 @@ void Enemy::Draw() {
 	model_->Draw(worldTransform_, *camera_);
 }
 
-// 02_10 スライド14枚目
 AABB Enemy::GetAABB() {
 
 	Vector3 worldPos = GetWorldPosition();
@@ -108,7 +105,6 @@ AABB Enemy::GetAABB() {
 	return aabb;
 }
 
-// 02_10 スライド14枚目
 Vector3 Enemy::GetWorldPosition() {
 
 	Vector3 worldPos;
@@ -121,7 +117,6 @@ Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
-// 02_10 スライド20枚目
 void Enemy::OnCollision(const Player* player) {
 	if (behavior_ == Behavior::kDefeated) {
 		// 敵がやられているなら何もしない
@@ -146,7 +141,7 @@ void Enemy::OnCollision(const Player* player) {
 		// 敵の振るまいをやられに変更
 		behaviorRequest_ = Behavior::kDefeated;
 
-		// 02_15 20枚目 衝突を無効化
+		// 衝突を無効化
 		isCollisionDisabled_ = true;
 	}
 }

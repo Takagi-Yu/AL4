@@ -2,8 +2,6 @@
 #include <algorithm>
 
 void Fade::Initialize() {
-	// 02_13 10枚目
-	// sprite_ = new Sprite();
 	sprite_ = Sprite::Create(0, Vector2{});
 
 	sprite_->SetSize(Vector2(WinApp::kWindowWidth, WinApp::kWindowHeight));
@@ -18,7 +16,6 @@ void Fade::Update() {
 
 		break;
 	case Status::FadeIn:
-		// 02_13 21枚目
 
 		// 1フレーム分の秒数をカウントアップ
 		counter_ += 1.0f / 60.0f;
@@ -31,7 +28,6 @@ void Fade::Update() {
 
 		break;
 	case Status::FadeOut:
-		// 02_13 20枚目
 
 		// 1フレーム分の秒数をカウントアップ
 		counter_ += 1.0f / 60.0f;
@@ -47,18 +43,16 @@ void Fade::Update() {
 
 void Fade::Draw() {
 
-	// 02_13 24枚目
 	if (status_ == Status::None) {
 		return;
 	}
 
-	// 02_13 11枚目
 	Sprite::PreDraw(DirectXCommon::GetInstance()->GetCommandList());
 	sprite_->Draw();
 	Sprite::PostDraw();
 }
 
-// 02_13 18枚目 フェード開始
+// フェード開始
 void Fade::Start(Status status, float duration) {
 
 	status_ = status;
@@ -66,24 +60,16 @@ void Fade::Start(Status status, float duration) {
 	counter_ = 0.0f;
 }
 
-// 02_13 24枚目 フェード停止
+// フェード停止
 void Fade::Stop() { status_ = Status::None; }
 
-// 02_13 26枚目 フェード終了判定
+// フェード終了判定
 bool Fade::IsFinished() const {
 
 	// フェード状態による分岐
 	switch (status_) {
 	case Status::FadeIn:
 	case Status::FadeOut:
-		/*
-		        if (counter_ >= duration_) {
-		            return true;
-		        }
-		        else {
-		            return false;
-		        }
-		*/
 		// 1行バージョン 3項演算子
 		return (counter_ >= duration_) ? true : false;
 	}

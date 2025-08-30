@@ -4,7 +4,6 @@
 
 using namespace KamataEngine;
 
-// 02_16 5枚目
 class HitEffect {
 public:
 	enum class State {
@@ -13,7 +12,7 @@ public:
 		kDead    // 死亡
 	};
 
-	// 02_16 10枚目(SetModel,SetCamera)
+	// SetModel,SetCamera
 	static void SetModel(KamataEngine::Model* model) { model_ = model; }
 
 	static void SetCamera(KamataEngine::Camera* camera) { camera_ = camera; }
@@ -40,7 +39,6 @@ private:
 	// エフェクトの寿命
 	static inline const uint32_t kLifetime = kSpreadTime + kFadeTime;
 
-	// 02_16 8枚目
 	static Model* model_;
 	static Camera* camera_;
 

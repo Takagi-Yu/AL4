@@ -2,23 +2,21 @@
 #include <cmath>
 #include <numbers>
 
-// 02_14 29枚目 単項演算子オーバーロード
+// 単項演算子オーバーロード
 Vector3 operator+(const Vector3& v) { return v; }
 Vector3 operator-(const Vector3& v) { return Vector3(-v.x, -v.y, -v.z); }
 
-// 02_06の29枚目(CameraControllerのUpdate)で必要
 const Vector3 operator*(const Vector3& v1, const float f) {
 	Vector3 temp(v1);
 	return temp *= f;
 }
 
-// 02_06のCameraControllerのUpdate/Reset関数で必要
 const Vector3 operator+(const Vector3& v1, const Vector3& v2) {
 	Vector3 temp(v1);
 	return temp += v2;
 }
 
-// 02_06のスライド24枚目のLerp関数
+// Lerp関数
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) { return Vector3(Lerp(v1.x, v2.x, t), Lerp(v1.y, v2.y, t), Lerp(v1.z, v2.z, t)); }
 
 Vector3& operator+=(Vector3& lhv, const Vector3& rhv) {
@@ -135,7 +133,7 @@ Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return result *= m2;
 }
 
-// ワールドトランスフォーム更新(02_03の最後)
+// ワールドトランスフォーム更新
 void WorldTransformUpdate(WorldTransform& worldTransform) {
 
 	Matrix4x4 affin_mat = MakeAffineMatrix(worldTransform.scale_, worldTransform.rotation_, worldTransform.translation_);

@@ -2,14 +2,11 @@
 #include "KamataEngine.h"
 #include "TitleScene.h"
 #include <Windows.h>
-
 using namespace KamataEngine;
 
-// 02_12 24枚目
 TitleScene* titleScene = nullptr;
 GameScene* gameScene = nullptr;
 
-// (Scene sceneまで)
 enum class Scene {
 	kUnknown = 0,
 	kTitle,
@@ -18,7 +15,6 @@ enum class Scene {
 // 現在シーン（型）
 Scene scene = Scene::kUnknown;
 
-// 02_12 29枚目
 void ChangeScene() {
 
 	switch (scene) {
@@ -33,7 +29,6 @@ void ChangeScene() {
 		}
 		break;
 	case Scene::kGame:
-		// 02_12 30枚目
 		if (gameScene->IsFinished()) {
 			// シーン変更
 			scene = Scene::kTitle;
@@ -46,7 +41,6 @@ void ChangeScene() {
 	}
 }
 
-// 02_12 31枚目
 void UpdateScene() {
 
 	switch (scene) {
@@ -59,7 +53,6 @@ void UpdateScene() {
 	}
 }
 
-// 02_12 32枚目
 void DrawScene() {
 	switch (scene) {
 	case Scene::kTitle:
@@ -83,9 +76,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	// ImGuiManagerインスタンスの取得
 	ImGuiManager* imguiManager = ImGuiManager::GetInstance();
 
-	// 02_12 21枚目 ↓3行
-	//	TitleScene *titleScene = nullptr; // 02_12 24枚目でグローバルに引っ越し
-	scene = Scene::kTitle; // 02_12 28枚目
+	scene = Scene::kTitle;
 	titleScene = new TitleScene;
 	titleScene->Initialize();
 
@@ -98,9 +89,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 		// ImGui受付開始
 		imguiManager->Begin();
-
-		// 02_12 21枚目で変更
-		// titleScene->Update();
 
 		// シーン切り替え
 		ChangeScene();
@@ -133,7 +121,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		dxCommon->PostDraw();
 	}
 
-	// 02_12 35枚目 各種解放
+	// 各種解放
 	delete titleScene;
 	delete gameScene;
 

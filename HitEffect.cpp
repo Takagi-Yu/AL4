@@ -6,7 +6,6 @@
 
 using namespace KamataEngine;
 
-// 02_16 9枚目
 Model* HitEffect::model_ = nullptr;
 Camera* HitEffect::camera_ = nullptr;
 

@@ -35,18 +35,17 @@ public:
 	void CreateEffect(const Vector3& position);
 
 private:
-	// 02_12 4枚目 ゲームのフェーズ（型）
+	// ゲームのフェーズ（型）
 	enum class Phase {
-		kFadeIn,  // フェードイン 02_13 28枚目で追加
+		kFadeIn,  // フェードイン 
 		kPlay,    // ゲームプレイ
 		kDeath,   // デス演出
-		kFadeOut, // フェードアウト 02_13 28枚目で追加
+		kFadeOut, // フェードアウト 
 	};
 
-	// 02_12 4枚目 ゲームの現在フェーズ（変数）
+	// ゲームの現在フェーズ（変数）
 	Phase phase_;
 
-	// 02_12 9枚目
 	void ChangePhase();
 
 	// テクスチャハンドル
@@ -64,7 +63,6 @@ private:
 	// 音声再生ハンドル
 	uint32_t voiceHandle_ = 0;
 
-	// ここから02_01からの追加
 	//  プレイヤー
 	Player* player_ = nullptr;
 	// プレイヤーモデル
@@ -79,42 +77,31 @@ private:
 	// デバッグカメラ
 	KamataEngine::DebugCamera* debugCamera_ = nullptr;
 
-	// 02_03 天球
+	// 天球
 	skydome* skydome_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 
-	// 02_04 マップチップフィールド
+	// マップチップフィールド
 	MapChipField* mapChipField_;
 
-	// 02_06カメラ移動
+	// カメラ移動
 	CameraController* CController_ = nullptr;
 
-	// 02_09 10枚目 エネミークラス
-	// Enemy* enemy_ = nullptr;//02_10で削除
-
-	// 02_09 10枚目 エネミーモデル
 	KamataEngine::Model* enemy_model_ = nullptr;
 
-	// 02_10 4枚目
 	std::list<Enemy*> enemies_;
 
-	// 02_11 15枚目
 	DeathParticles* deathParticles_ = nullptr;
 
-	// 02_11 16枚目
 	Model* deathParticle_model_ = nullptr;
 
-	// 02_12 26枚目
 	bool finished_ = false;
 
-	// 02_13 28枚目
 	Fade* fade_ = nullptr;
 
 	Model* modelAttack_ = nullptr;
 
-	// 02_16 17枚目
 	std::list<HitEffect*> hitEffects_;
 
-	// 02_16
 	Model* particle_model_ = nullptr;
 };
