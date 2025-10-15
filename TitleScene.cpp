@@ -96,3 +96,4 @@ void TitleScene::Draw() {
 
 	fade_->Draw();
 }
+
