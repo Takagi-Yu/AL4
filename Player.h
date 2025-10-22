@@ -19,24 +19,24 @@ public:
 	// 角 
 	enum Corner { kRightBottom, kLeftBottom, kRightTop, kLeftTop, kNumCorner };
 
-	// 振るまい
-	enum class Behavior {
-		kUnknown = -1,
-		kRoot,   // 通常状態
-		kAttack, // 攻撃中
-	};
+	//// 振るまい
+	//enum class Behavior {
+	//	kUnknown = -1,
+	//	kRoot,   // 通常状態
+	//	kAttack, // 攻撃中
+	//};
 
-	// 攻撃フェーズ
-	enum class AttackPhase {
-		kUnknown = -1, // 無効な状態
+	//// 攻撃フェーズ
+	//enum class AttackPhase {
+	//	kUnknown = -1, // 無効な状態
 
-		kAnticipation, // 予備動作
-		kAction,       // 前進動作
-		kRecovery,     // 余韻動作
-	};
+	//	kAnticipation, // 予備動作
+	//	kAction,       // 前進動作
+	//	kRecovery,     // 余韻動作
+	//};
 
 	/// 初期化
-	void Initialize(Model* model, Model* modelAttack, Camera* camera, const Vector3& position);
+	void Initialize(Model* model /*, Model* modelAttack*/, Camera* camera, const Vector3& position);
 
 	/// 更新
 	void Update();
@@ -52,7 +52,7 @@ public:
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
 	// ワールド座標を取得
-	Vector3 GetWorldPosition() const;
+	Vector3 GetWorldPosition() /* const*/;
 
 	AABB GetAABB();
 
@@ -62,23 +62,23 @@ public:
 	// デスフラグ
 	bool IsDead() const { return isDead_; }
 
-	// 通常行動更新
-	void BehaviorRootUpdate();
+	//// 通常行動更新
+	//void BehaviorRootUpdate();
 
-	// 攻撃行動更新
-	void BehaviorAttackUpdate();
+	//// 攻撃行動更新
+	//void BehaviorAttackUpdate();
 
-	// 通常行動初期化
-	void BehaviorRootInitialize();
+	//// 通常行動初期化
+	//void BehaviorRootInitialize();
 
-	// 攻撃行動初期化
-	void BehaviorAttackInitialize();
+	//// 攻撃行動初期化
+	//void BehaviorAttackInitialize();
 
-	bool IsAttack() const { return behavior_ == Behavior::kAttack && attackPhase_ == AttackPhase::kAction; }
+	//bool IsAttack() const { return behavior_ == Behavior::kAttack && attackPhase_ == AttackPhase::kAction; }
 
-	bool IsCollisionDisabled() const { return isCollisionDisabled_; }
+	//bool IsCollisionDisabled() const { return isCollisionDisabled_; }
 
-	void SetPosition(const Vector3& pos);
+	//void SetPosition(const Vector3& pos);
 
 private:
 	// ワールド変換データ
@@ -110,6 +110,8 @@ private:
 	static inline const float kJumpAcceleration = 18.0f;
 	static inline const float kGravityAcceleration = 0.98f;
 	static inline const float kLimitFallSpeed = 0.5f;
+	bool isJump_ = false;
+	uint32_t jump_time = 1;
 
 	// マップチップによるフィールド
 	MapChipField* mapChipField_ = nullptr;
@@ -153,27 +155,27 @@ private:
 	// デスフラグ
 	bool isDead_ = false;
 
-	// 振るまい
-	Behavior behavior_ = Behavior::kRoot;
+	//// 振るまい
+	//Behavior behavior_ = Behavior::kRoot;
 
-	// 次の振るまいリクエスト
-	Behavior behaviorRequest_ = Behavior::kUnknown;
+	//// 次の振るまいリクエスト
+	//Behavior behaviorRequest_ = Behavior::kUnknown;
 
-	// 攻撃ギミックの経過時間カウンター
-	uint32_t attackParameter_ = 0;
+	//// 攻撃ギミックの経過時間カウンター
+	//uint32_t attackParameter_ = 0;
 
-	// 攻撃フェーズ
-	AttackPhase attackPhase_ = AttackPhase::kUnknown;
+	//// 攻撃フェーズ
+	//AttackPhase attackPhase_ = AttackPhase::kUnknown;
 
-	// 予備動作の時間
-	static inline const uint32_t kAnticipationTime = 8;
-	// 前進動作の時間
-	static inline const uint32_t kActionTime = 5;
-	// 余韻動作の時間
-	static inline const uint32_t kRecoveryTime = 12;
-	// 攻撃エフェクト
-	Model* modelAttack_ = nullptr;
-	WorldTransform worldTransformAttack_;
+	//// 予備動作の時間
+	//static inline const uint32_t kAnticipationTime = 8;
+	//// 前進動作の時間
+	//static inline const uint32_t kActionTime = 5;
+	//// 余韻動作の時間
+	//static inline const uint32_t kRecoveryTime = 12;
+	//// 攻撃エフェクト
+	//Model* modelAttack_ = nullptr;
+	//WorldTransform worldTransformAttack_;
 
-	bool isCollisionDisabled_ = false; // 衝突無効化
+	//bool isCollisionDisabled_ = false; // 衝突無効化
 };

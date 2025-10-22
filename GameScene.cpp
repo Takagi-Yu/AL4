@@ -83,7 +83,7 @@ void GameScene::Initialize() {
 	// プレイヤ攻撃エフェクト
 	modelAttack_ = Model::CreateFromOBJ("attack_effect");
 
-	player_->Initialize(player_model_, modelAttack_, &camera_, playerPosition);
+	player_->Initialize(player_model_ /*, modelAttack_*/, &camera_, playerPosition);
 
 	CController_ = new CameraController(); // 生成
 	CController_->Initialize(&camera_);    // 初期化
@@ -175,7 +175,7 @@ void GameScene::Update() {
 		Vector3 resetPos = mapChipField_->GetMapChipPositionByIndex(2, 18);
 
 		// プレイヤーの位置をセット
-		player_->SetPosition(resetPos);
+		//player_->SetPosition(resetPos);
 	}
 
 	// デスフラグの立ったエフェクトを削除
