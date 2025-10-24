@@ -95,7 +95,6 @@ void Player::CheckMapCollision(CollisionMapInfo& info) {
 	CheckMapCollisionLeft(info);
 }
 
-// 上下左右全て
 void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 
 	if (info.move.y <= 0) {
