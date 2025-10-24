@@ -301,6 +301,7 @@ void Player::CheckMapCollisionRight(CollisionMapInfo& info) {
 		}
 	}
 }
+
 void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
 	if (info.move.x >= 0) {
 		return;

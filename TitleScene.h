@@ -33,7 +33,7 @@ private:
 	WorldTransform worldTransformPlayer_;
 
 	Model* modelPlayer_ = nullptr;
-	//Model* modelTitle_ = nullptr;
+	Model* modelTitle_ = nullptr;
 
 	float counter_ = 0.0f;
 	
