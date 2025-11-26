@@ -15,6 +15,9 @@ GameScene::~GameScene() {
 
 	delete sprite_;
 	delete model_;
+	delete player_model_;
+	delete enemy_model_;
+	delete modelSkydome_;
 
 	delete block_model_;
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -81,7 +84,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 	// プレイヤ攻撃エフェクト
-	modelAttack_ = Model::CreateFromOBJ("attack_effect");
+	Attack_model_ = Model::CreateFromOBJ("attack_effect");
 
 	player_->Initialize(player_model_ /*, modelAttack_*/, &camera_, playerPosition);
 
