@@ -104,4 +104,6 @@ private:
 	std::list<HitEffect*> hitEffects_;
 
 	Model* particle_model_ = nullptr;
+
+	int isPose_ = false;
 };

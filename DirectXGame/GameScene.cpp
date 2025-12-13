@@ -169,167 +169,176 @@ void GameScene::GenerateBlocks() {
 
 // ゲームシーン更新
 void GameScene::Update() {
-
-	if (Input::GetInstance()->TriggerKey(DIK_R)) {
-		// (2,18) のマップチップ座標からワールド座標を取得
-		Vector3 resetPos = mapChipField_->GetMapChipPositionByIndex(2, 18);
-
-		// プレイヤーの位置をセット
-		//player_->SetPosition(resetPos);
-	}
-
-	// デスフラグの立ったエフェクトを削除
-	hitEffects_.remove_if([](HitEffect* hitEffect) {
-		if (hitEffect->IsDead()) {
-			delete hitEffect;
-
-			return true;
-		}
-		return false;
-	});
-
-	// デスフラグの立った敵を削除
-	enemies_.remove_if([](Enemy* enemy) {
-		if (enemy->IsDead()) {
-			delete enemy;
-			return true;
-		}
-		return false;
-	});
-
-	ChangePhase();
-
-	switch (phase_) {
-	case Phase::kFadeIn:
-		fade_->Update();
-		if (fade_->IsFinished()) {
-			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			phase_ = Phase::kPlay;
+	if (!isPose_) {
+		if (Input::GetInstance()->TriggerKey(DIK_ESCAPE)) {
+			isPose_ = true;
 		}
 
-		skydome_->Update();
-		CController_->Update();
-		// 自キャラの更新
-		player_->Update();
+		if (Input::GetInstance()->TriggerKey(DIK_R)) {
+			// (2,18) のマップチップ座標からワールド座標を取得
+			Vector3 resetPos = mapChipField_->GetMapChipPositionByIndex(2, 18);
 
-		for (Enemy* enemy : enemies_) {
-			enemy->Update();
+			// プレイヤーの位置をセット
+			// player_->SetPosition(resetPos);
 		}
 
-		for (HitEffect* hitEffect : hitEffects_) {
-			hitEffect->Update();
-		}
+		// デスフラグの立ったエフェクトを削除
+		hitEffects_.remove_if([](HitEffect* hitEffect) {
+			if (hitEffect->IsDead()) {
+				delete hitEffect;
 
-		// カメラの処理
-		if (isDebugCameraActive_) {
-			debugCamera_->Update();
-			camera_.matView = debugCamera_->GetCamera().matView;
-			camera_.matProjection = debugCamera_->GetCamera().matProjection;
-			// ビュープロジェクション行列の転送
-			camera_.TransferMatrix();
-		} else {
-			// ビュープロジェクション行列の更新と転送
-			camera_.UpdateMatrix();
-		}
-
-		// UpdateBlocks();
-		// ブロックの更新
-		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
-			for (WorldTransform*& worldTransformBlock : worldTransformBlockLine) {
-
-				if (!worldTransformBlock)
-					continue;
-
-				// アフィン変換～DirectXに転送
-				WorldTransformUpdate(*worldTransformBlock);
+				return true;
 			}
-		}
+			return false;
+		});
 
-		for (HitEffect* hitEffect : hitEffects_) {
-			hitEffect->Update();
-		}
-
-		break;
-	case Phase::kPlay:
-		skydome_->Update();
-		CController_->Update();
-		// 自キャラの更新
-		player_->Update();
-
-		for (Enemy* enemy : enemies_) {
-			enemy->Update();
-		}
-
-		// カメラの処理
-		if (isDebugCameraActive_) {
-			debugCamera_->Update();
-			camera_.matView = debugCamera_->GetCamera().matView;
-			camera_.matProjection = debugCamera_->GetCamera().matProjection;
-			// ビュープロジェクション行列の転送
-			camera_.TransferMatrix();
-		} else {
-			// ビュープロジェクション行列の更新と転送
-			camera_.UpdateMatrix();
-		}
-
-		// ブロックの更新
-		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
-			for (WorldTransform*& worldTransformBlock : worldTransformBlockLine) {
-
-				if (!worldTransformBlock)
-					continue;
-
-				// アフィン変換～DirectXに転送
-				WorldTransformUpdate(*worldTransformBlock);
+		// デスフラグの立った敵を削除
+		enemies_.remove_if([](Enemy* enemy) {
+			if (enemy->IsDead()) {
+				delete enemy;
+				return true;
 			}
+			return false;
+		});
+
+		ChangePhase();
+
+		switch (phase_) {
+		case Phase::kFadeIn:
+			fade_->Update();
+			if (fade_->IsFinished()) {
+				fade_->Start(Fade::Status::FadeOut, 1.0f);
+				phase_ = Phase::kPlay;
+			}
+
+			skydome_->Update();
+			CController_->Update();
+			// 自キャラの更新
+			player_->Update();
+
+			for (Enemy* enemy : enemies_) {
+				enemy->Update();
+			}
+
+			for (HitEffect* hitEffect : hitEffects_) {
+				hitEffect->Update();
+			}
+
+			// カメラの処理
+			if (isDebugCameraActive_) {
+				debugCamera_->Update();
+				camera_.matView = debugCamera_->GetCamera().matView;
+				camera_.matProjection = debugCamera_->GetCamera().matProjection;
+				// ビュープロジェクション行列の転送
+				camera_.TransferMatrix();
+			} else {
+				// ビュープロジェクション行列の更新と転送
+				camera_.UpdateMatrix();
+			}
+
+			// UpdateBlocks();
+			// ブロックの更新
+			for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+				for (WorldTransform*& worldTransformBlock : worldTransformBlockLine) {
+
+					if (!worldTransformBlock)
+						continue;
+
+					// アフィン変換～DirectXに転送
+					WorldTransformUpdate(*worldTransformBlock);
+				}
+			}
+
+			for (HitEffect* hitEffect : hitEffects_) {
+				hitEffect->Update();
+			}
+
+			break;
+		case Phase::kPlay:
+			skydome_->Update();
+			CController_->Update();
+			// 自キャラの更新
+			player_->Update();
+
+			for (Enemy* enemy : enemies_) {
+				enemy->Update();
+			}
+
+			// カメラの処理
+			if (isDebugCameraActive_) {
+				debugCamera_->Update();
+				camera_.matView = debugCamera_->GetCamera().matView;
+				camera_.matProjection = debugCamera_->GetCamera().matProjection;
+				// ビュープロジェクション行列の転送
+				camera_.TransferMatrix();
+			} else {
+				// ビュープロジェクション行列の更新と転送
+				camera_.UpdateMatrix();
+			}
+
+			// ブロックの更新
+			for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+				for (WorldTransform*& worldTransformBlock : worldTransformBlockLine) {
+
+					if (!worldTransformBlock)
+						continue;
+
+					// アフィン変換～DirectXに転送
+					WorldTransformUpdate(*worldTransformBlock);
+				}
+			}
+
+			CheckAllCollisions();
+
+			for (HitEffect* hitEffect : hitEffects_) {
+				hitEffect->Update();
+			}
+
+			break;
+		case Phase::kDeath:
+			if (deathParticles_ && deathParticles_->IsFinished()) {
+				phase_ = Phase::kFadeOut;
+			}
+
+			skydome_->Update();
+			CController_->Update();
+
+			for (Enemy* enemy : enemies_) {
+				enemy->Update();
+			}
+
+			if (deathParticles_) {
+				deathParticles_->Update();
+			}
+
+			for (HitEffect* hitEffect : hitEffects_) {
+				hitEffect->Update();
+			}
+
+			break;
+		case Phase::kFadeOut:
+			fade_->Update();
+			if (fade_->IsFinished()) {
+				finished_ = true;
+			}
+
+			skydome_->Update();
+			CController_->Update();
+
+			for (Enemy* enemy : enemies_) {
+				enemy->Update();
+			}
+
+			for (HitEffect* hitEffect : hitEffects_) {
+				hitEffect->Update();
+			}
+
+			break;
 		}
-
-		CheckAllCollisions();
-
-		for (HitEffect* hitEffect : hitEffects_) {
-			hitEffect->Update();
+	} else {
+		if (Input::GetInstance()->TriggerKey(DIK_ESCAPE)) {
+			isPose_ = false;
 		}
-
-		break;
-	case Phase::kDeath:
-		if (deathParticles_ && deathParticles_->IsFinished()) {
-			phase_ = Phase::kFadeOut;
-		}
-
-		skydome_->Update();
-		CController_->Update();
-
-		for (Enemy* enemy : enemies_) {
-			enemy->Update();
-		}
-
-		if (deathParticles_) {
-			deathParticles_->Update();
-		}
-
-		for (HitEffect* hitEffect : hitEffects_) {
-			hitEffect->Update();
-		}
-
-		break;
-	case Phase::kFadeOut:
-		fade_->Update();
-		if (fade_->IsFinished()) {
-			finished_ = true;
-		}
-
-		skydome_->Update();
-		CController_->Update();
-
-		for (Enemy* enemy : enemies_) {
-			enemy->Update();
-		}
-
-		for (HitEffect* hitEffect : hitEffects_) {
-			hitEffect->Update();
-		}
-
-		break;
 	}
 }
 
