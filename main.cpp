@@ -30,25 +30,12 @@ void ChangeScene() {
 		break;
 	case Scene::kGame:
 		if (gameScene->IsFinished()) {
-			if (gameScene->isPose_) {
-				if (gameScene->nextScene_ == 0) {
-					// シーン変更
-					scene = Scene::kTitle;
-					// 旧シーンの解放
-					//delete gameScene;
-					gameScene = nullptr;
-					// 新シーンの生成と初期化
-					titleScene = new TitleScene;
-					titleScene->Initialize();
-				}
-			} else {
 			// シーン変更
 			scene = Scene::kTitle;
 			delete gameScene;
 			gameScene = nullptr;
 			titleScene = new TitleScene;
 			titleScene->Initialize();
-			}
 		}
 		break;
 	}
@@ -128,6 +115,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 		// ImGui描画
 		imguiManager->Draw();
+		imguiManager->Draw();
 
 		// 描画終了
 		dxCommon->PostDraw();
@@ -135,7 +123,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	// 各種解放
 	delete titleScene;
-	//delete gameScene;
+	delete gameScene;
 
 	// エンジンの終了処理
 	KamataEngine::Finalize();

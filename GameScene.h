@@ -10,8 +10,6 @@
 #include "skydome.h"
 #include <vector>
 
-using namespace KamataEngine;
-
 // ゲームシーンクラス
 class GameScene {
 public:
@@ -36,10 +34,6 @@ public:
 	// エフェクトを生成
 	void CreateEffect(const Vector3& position);
 
-	int isPose_ = false;
-
-	int nextScene_ = 0;
-
 private:
 	// ゲームのフェーズ（型）
 	enum class Phase {
@@ -57,13 +51,13 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 	// スプライト
-	Sprite* sprite_ = nullptr;
+	KamataEngine::Sprite* sprite_ = nullptr;
 	// 3Dモデル
-	Model* model_ = nullptr;
+	KamataEngine::Model* model_ = nullptr;
 	// ワールドトランスフォーム
-	WorldTransform worldTransform_;
+	KamataEngine::WorldTransform worldTransform_;
 	// カメラ
-	Camera camera_;
+	KamataEngine::Camera camera_;
 	// サウンドデータハンドル
 	uint32_t soundDataHandle_ = 0;
 	// 音声再生ハンドル
@@ -72,16 +66,16 @@ private:
 	//  プレイヤー
 	Player* player_ = nullptr;
 	// プレイヤーモデル
-	Model* player_model_ = nullptr;
+	KamataEngine::Model* player_model_ = nullptr;
 
 	// ブロックモデル
-	Model* block_model_ = nullptr;
+	KamataEngine::Model* block_model_ = nullptr;
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
 	// デバッグカメラ
-	DebugCamera* debugCamera_ = nullptr;
+	KamataEngine::DebugCamera* debugCamera_ = nullptr;
 
 	// 天球
 	skydome* skydome_ = nullptr;
@@ -93,7 +87,7 @@ private:
 	// カメラ移動
 	CameraController* CController_ = nullptr;
 
-	Model* enemy_model_ = nullptr;
+	KamataEngine::Model* enemy_model_ = nullptr;
 
 	std::list<Enemy*> enemies_;
 
@@ -105,17 +99,9 @@ private:
 
 	Fade* fade_ = nullptr;
 
-	Model* Attack_model_ = nullptr;
+	Model* modelAttack_ = nullptr;
 
 	std::list<HitEffect*> hitEffects_;
 
 	Model* particle_model_ = nullptr;
-
-	WorldTransform worldTransformTitle_;
-	Model* modelTitle_;
-	float kTitleFontScale_;
-	WorldTransform worldTransformPose_;
-	Model* modelPose_;
-	float kPoseFontScale_;
-
 };

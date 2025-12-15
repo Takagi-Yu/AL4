@@ -15,9 +15,6 @@ GameScene::~GameScene() {
 
 	delete sprite_;
 	delete model_;
-	delete player_model_;
-	delete enemy_model_;
-	delete modelSkydome_;
 
 	delete block_model_;
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -84,7 +81,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 	// プレイヤ攻撃エフェクト
-	Attack_model_ = Model::CreateFromOBJ("attack_effect");
+	modelAttack_ = Model::CreateFromOBJ("attack_effect");
 
 	player_->Initialize(player_model_ /*, modelAttack_*/, &camera_, playerPosition);
 
@@ -123,16 +120,6 @@ void GameScene::Initialize() {
 
 	HitEffect::SetModel(particle_model_);
 	HitEffect::SetCamera(&camera_);
-
-	modelPose_ = Model::CreateFromOBJ("poseFont", true);
-	worldTransformPose_.Initialize();
-	worldTransformPose_.scale_ = {1.0f, 1.0f, 1.0f};
-	worldTransformPose_.translation_ = {12.0f, 12.0f, 18.0f};
-
-	modelTitle_ = Model::CreateFromOBJ("titleFont", true);
-	worldTransformTitle_.Initialize();
-	worldTransformTitle_.scale_ = {0.5f, 0.5f, 0.5f};
-	worldTransformTitle_.translation_ = {12.0f, 8.0f, 18.0f};
 }
 
 void GameScene::ChangePhase() {
@@ -182,12 +169,13 @@ void GameScene::GenerateBlocks() {
 
 // ゲームシーン更新
 void GameScene::Update() {
+
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {
 		// (2,18) のマップチップ座標からワールド座標を取得
 		Vector3 resetPos = mapChipField_->GetMapChipPositionByIndex(2, 18);
 
 		// プレイヤーの位置をセット
-		// player_->SetPosition(resetPos);
+		//player_->SetPosition(resetPos);
 	}
 
 	// デスフラグの立ったエフェクトを削除
@@ -263,59 +251,43 @@ void GameScene::Update() {
 
 		break;
 	case Phase::kPlay:
-		if (!isPose_) {
-			skydome_->Update();
-			CController_->Update();
-			// 自キャラの更新
-			player_->Update();
+		skydome_->Update();
+		CController_->Update();
+		// 自キャラの更新
+		player_->Update();
 
-			for (Enemy* enemy : enemies_) {
-				enemy->Update();
-			}
+		for (Enemy* enemy : enemies_) {
+			enemy->Update();
+		}
 
-			// カメラの処理
-			if (isDebugCameraActive_) {
-				debugCamera_->Update();
-				camera_.matView = debugCamera_->GetCamera().matView;
-				camera_.matProjection = debugCamera_->GetCamera().matProjection;
-				// ビュープロジェクション行列の転送
-				camera_.TransferMatrix();
-			} else {
-				// ビュープロジェクション行列の更新と転送
-				camera_.UpdateMatrix();
-			}
-
-			// ブロックの更新
-			for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
-				for (WorldTransform*& worldTransformBlock : worldTransformBlockLine) {
-
-					if (!worldTransformBlock)
-						continue;
-
-					// アフィン変換～DirectXに転送
-					WorldTransformUpdate(*worldTransformBlock);
-				}
-			}
-
-			CheckAllCollisions();
-
-			for (HitEffect* hitEffect : hitEffects_) {
-				hitEffect->Update();
-			}
-			if (Input::GetInstance()->TriggerKey(DIK_ESCAPE)) {
-				isPose_ = true;
-			}
+		// カメラの処理
+		if (isDebugCameraActive_) {
+			debugCamera_->Update();
+			camera_.matView = debugCamera_->GetCamera().matView;
+			camera_.matProjection = debugCamera_->GetCamera().matProjection;
+			// ビュープロジェクション行列の転送
+			camera_.TransferMatrix();
 		} else {
-			if (nextScene_ == 0) {
-				if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-					phase_ = Phase::kFadeOut;
-					fade_->Start(Fade::Status::FadeOut, 0.5f);
-				}
-			}
+			// ビュープロジェクション行列の更新と転送
+			camera_.UpdateMatrix();
+		}
 
-			if (Input::GetInstance()->TriggerKey(DIK_ESCAPE)) {
-				isPose_ = false;
+		// ブロックの更新
+		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+			for (WorldTransform*& worldTransformBlock : worldTransformBlockLine) {
+
+				if (!worldTransformBlock)
+					continue;
+
+				// アフィン変換～DirectXに転送
+				WorldTransformUpdate(*worldTransformBlock);
 			}
+		}
+
+		CheckAllCollisions();
+
+		for (HitEffect* hitEffect : hitEffects_) {
+			hitEffect->Update();
 		}
 
 		break;
@@ -359,9 +331,6 @@ void GameScene::Update() {
 
 		break;
 	}
-
-	WorldTransformUpdate(worldTransformPose_);
-	WorldTransformUpdate(worldTransformTitle_);
 }
 
 void GameScene::Draw() {
@@ -378,12 +347,6 @@ void GameScene::Draw() {
 
 	// 天球描画
 	skydome_->Draw();
-
-	if (isPose_) {
-		// ポーズ画面描画
-		modelPose_->Draw(worldTransformPose_, camera_);
-		modelTitle_->Draw(worldTransformTitle_, camera_);
-	}
 
 	// ブロックの描画
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
