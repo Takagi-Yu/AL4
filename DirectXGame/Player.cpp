@@ -18,6 +18,9 @@ void Player::Initialize(Model* model, Camera* camera, const Vector3& position) {
 	worldTransform_.translation_ = position;
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
 
+	worldTransformAttack_.Initialize();
+	worldTransformAttack_.translation_ = worldTransform_.translation_;
+
 	camera_ = camera;
 }
 
@@ -365,6 +368,20 @@ void Player ::Update() {
 
 	// 移動入力
 	InputMove();
+
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+		isAttack_ = 1;
+	}
+
+	if (isAttack_) {
+		attackTimer_++;
+		if (attackTimer_ >= attackLimitTimer_) {
+			isAttack_ = 0;
+			attackTimer_ = 0;
+		}
+	}
+
+	worldTransformAttack_.translation_ = worldTransform_.translation_;
 
 	// 衝突情報を初期化
 	CollisionMapInfo collisionMapInfo = {};

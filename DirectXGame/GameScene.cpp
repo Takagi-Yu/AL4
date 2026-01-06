@@ -28,7 +28,7 @@ GameScene::~GameScene() {
 	worldTransformBlocks_.clear();
 
 	delete debugCamera_;
-	delete modelSkydome_;
+	//delete modelSkydome_;
 	delete mapChipField_;
 
 	// 敵クラス削除
@@ -273,6 +273,13 @@ void GameScene::Update() {
 				enemy->Update();
 			}
 
+			MapChipField::IndexSet index = mapChipField_->GetMapChipIndexSetByPosition(player_->worldTransform_.translation_);
+
+			if (index.xIndex >= 40) {
+				phase_ = Phase::kFadeOut;
+				fade_->Start(Fade::Status::FadeOut, 0.5f);
+			}
+
 			// カメラの処理
 			if (isDebugCameraActive_) {
 				debugCamera_->Update();
@@ -375,6 +382,10 @@ void GameScene::Draw() {
 	// 自キャラの描画
 	if (!player_->IsDead())
 		player_->Draw();
+
+	if (player_->isAttack_) {
+		Attack_model_->Draw(player_->GetWorldTransform(), camera_);
+	}
 
 	// 天球描画
 	skydome_->Draw();

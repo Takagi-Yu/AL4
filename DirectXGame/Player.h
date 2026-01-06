@@ -62,6 +62,10 @@ public:
 	// デスフラグ
 	bool IsDead() const { return isDead_; }
 
+	int isAttack_ = 0;
+	Vector3 attackPosition_ = {};
+	WorldTransform worldTransformAttack_;
+
 	//// 通常行動更新
 	//void BehaviorRootUpdate();
 
@@ -80,14 +84,18 @@ public:
 
 	//void SetPosition(const Vector3& pos);
 
-private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
+private:
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	Camera* camera_ = nullptr;
+
+	int attackTimer_ = 0;
+	int attackLimitTimer_ = 60;
+
 	// 移動量
 	Vector3 velocity_ = {};
 	// フレームごとの加速度
