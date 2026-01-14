@@ -48,5 +48,5 @@ private:
 	ObjectColor objectColor_;
 
 	// 色の数値
-	Vector4 color_;
+	Vector4 color_ = {};
 };

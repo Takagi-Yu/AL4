@@ -114,9 +114,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		// 描画開始
 		dxCommon->PreDraw();
 
-		// ゲームシーンの描画
-		// titleScene->Draw();
-
 		// シーンの描画
 		DrawScene();
 
@@ -135,7 +132,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	// 各種解放
 	delete titleScene;
-	//delete gameScene;
 
 	// エンジンの終了処理
 	KamataEngine::Finalize();

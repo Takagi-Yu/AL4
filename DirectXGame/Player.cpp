@@ -232,7 +232,6 @@ void Player::UpdateOnGround(const CollisionMapInfo& info) {
 
 			// 落下開始
 			if (!hit) {
-				//				DebugText::GetInstance()->ConsolePrintf("jump");
 				onGround_ = false;
 			}
 		}
@@ -386,8 +385,6 @@ void Player ::Update() {
 	// 衝突情報を初期化
 	CollisionMapInfo collisionMapInfo = {};
 	collisionMapInfo.move = velocity_;
-	//	collisionMapInfo.landing = false;
-	//	collisionMapInfo.hitWall = false;
 
 	// マップ衝突チェック
 	CheckMapCollision(collisionMapInfo);
@@ -406,32 +403,6 @@ void Player ::Update() {
 
 	// 設置判定
 	UpdateOnGround(collisionMapInfo);
-
-	// bool landing = false;
-
-	//// 下降あり？
-	// if (velocity_.y < 0) {
-	//	// Y座標が地面以下になったら着地
-	//	if (worldTransform_.translation_.y <= 1.0f) {
-	//		landing = true;
-	//	}
-	// }
-
-	//// 接地判定
-	// if (onGround_) {
-	//	// ジャンプ開始
-	//	if (velocity_.y > 0.0f) {
-	//		onGround_ = false;
-	//	}
-	// } else {
-	//	// 着地
-	//	if (landing) {
-	//		worldTransform_.translation_.y = 1.0f;
-	//		velocity_.x *= (1.0f - kAttenuation);
-	//		velocity_.y = 0.0f;
-	//		onGround_ = true;
-	//	}
-	// }
 
 	// 旋回制御
 	if (turnTimer_ > 0.0f) {

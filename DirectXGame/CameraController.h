@@ -38,7 +38,7 @@ private:
 	Rect movableArea_ = {0, 100, 0, 100};
 
 	// 目標座標
-	Vector3 destination_;
+	Vector3 destination_ = {};
 	// 座標保管割合
 	static inline const float kInterpolationRate = 0.1f;
 	// 速度掛け率

@@ -113,9 +113,9 @@ private:
 
 	WorldTransform worldTransformTitle_;
 	Model* modelTitle_;
-	float kTitleFontScale_;
+	float kTitleFontScale_ = 0.0f;
 	WorldTransform worldTransformPose_;
 	Model* modelPose_;
-	float kPoseFontScale_;
+	float kPoseFontScale_ = 0.0f;
 
 };

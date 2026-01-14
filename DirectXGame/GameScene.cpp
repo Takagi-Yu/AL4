@@ -185,9 +185,6 @@ void GameScene::Update() {
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {
 		// (2,18) のマップチップ座標からワールド座標を取得
 		Vector3 resetPos = mapChipField_->GetMapChipPositionByIndex(2, 18);
-
-		// プレイヤーの位置をセット
-		// player_->SetPosition(resetPos);
 	}
 
 	// デスフラグの立ったエフェクトを削除
@@ -244,7 +241,6 @@ void GameScene::Update() {
 			camera_.UpdateMatrix();
 		}
 
-		// UpdateBlocks();
 		// ブロックの更新
 		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 			for (WorldTransform*& worldTransformBlock : worldTransformBlockLine) {

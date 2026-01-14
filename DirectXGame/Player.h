@@ -162,28 +162,4 @@ private:
 	static inline const float kAttenuationWall = 0.2f;
 	// デスフラグ
 	bool isDead_ = false;
-
-	//// 振るまい
-	//Behavior behavior_ = Behavior::kRoot;
-
-	//// 次の振るまいリクエスト
-	//Behavior behaviorRequest_ = Behavior::kUnknown;
-
-	//// 攻撃ギミックの経過時間カウンター
-	//uint32_t attackParameter_ = 0;
-
-	//// 攻撃フェーズ
-	//AttackPhase attackPhase_ = AttackPhase::kUnknown;
-
-	//// 予備動作の時間
-	//static inline const uint32_t kAnticipationTime = 8;
-	//// 前進動作の時間
-	//static inline const uint32_t kActionTime = 5;
-	//// 余韻動作の時間
-	//static inline const uint32_t kRecoveryTime = 12;
-	//// 攻撃エフェクト
-	//Model* modelAttack_ = nullptr;
-	//WorldTransform worldTransformAttack_;
-
-	//bool isCollisionDisabled_ = false; // 衝突無効化
 };
