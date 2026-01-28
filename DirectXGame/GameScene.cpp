@@ -65,7 +65,7 @@ void GameScene::Initialize() {
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
 
 	// skydome生成
-	skydome_ = new skydome();
+	skydome_ = new skydome()  ;
 	// 初期化
 	modelSkydome_ = Model::CreateFromOBJ("SkyDome", true);
 	skydome_->Initialize(modelSkydome_, &camera_);
@@ -84,7 +84,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 	// プレイヤ攻撃エフェクト
-	Attack_model_ = Model::CreateFromOBJ("attack_effect");
+	//Attack_model_ = Model::CreateFromOBJ("attack_effect");
 
 	player_->Initialize(player_model_ /*, modelAttack_*/, &camera_, playerPosition);
 
@@ -100,14 +100,14 @@ void GameScene::Initialize() {
 	enemy_model_ = Model::CreateFromOBJ("enemy");
 
 	for (int32_t i = 0; i < 1; ++i) {
-		Enemy* newEnemy = new Enemy();
+		Enemy* enemy = new Enemy();
 
 		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(30 + i * 2, 18);
 
-		newEnemy->Initialize(enemy_model_, &camera_, enemyPosition);
+		enemy->Initialize(enemy_model_, &camera_, enemyPosition);
 
-		newEnemy->SetGameScene(this);
-		enemies_.push_back(newEnemy);
+		enemy->SetGameScene(this);
+		enemies_.push_back(enemy);
 	}
 
 	// モデル読み込み
@@ -379,9 +379,9 @@ void GameScene::Draw() {
 	if (!player_->IsDead())
 		player_->Draw();
 
-	if (player_->isAttack_) {
-		Attack_model_->Draw(player_->GetWorldTransform(), camera_);
-	}
+	//if (player_->isAttack_) {
+	//	Attack_model_->Draw(player_->GetWorldTransform(), camera_);
+	//}
 
 	// 天球描画
 	skydome_->Draw();
@@ -445,6 +445,27 @@ void GameScene::CheckAllCollisions() {
 			if (IsCollision(aabb1, aabb2)) {
 				// 自キャラの衝突時コールバックを呼び出す
 				player_->OnCollision(enemy);
+				// 敵弾の衝突時コールバックを呼び出す
+				enemy->OnCollision(player_);
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region 自キャラの攻撃と敵キャラの当たり判定
+	{
+		// 自キャラの座標
+		aabb1 = player_->GetAttackAABB();
+
+		// 自キャラと敵弾全ての当たり判定
+		for (Enemy* enemy : enemies_) {
+			// 敵弾の座標
+			aabb2 = enemy->GetAABB();
+
+			// AABB同士の交差判定
+			if (IsCollision(aabb1, aabb2)) {
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnAttackCollision(enemy);
 				// 敵弾の衝突時コールバックを呼び出す
 				enemy->OnCollision(player_);
 			}

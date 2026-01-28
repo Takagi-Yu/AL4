@@ -105,7 +105,7 @@ private:
 
 	Fade* fade_ = nullptr;
 
-	Model* Attack_model_ = nullptr;
+	//Model* Attack_model_ = nullptr;
 
 	std::list<HitEffect*> hitEffects_;
 

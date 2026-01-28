@@ -20,8 +20,11 @@ void Player::Initialize(Model* model, Camera* camera, const Vector3& position) {
 
 	worldTransformAttack_.Initialize();
 	worldTransformAttack_.translation_ = worldTransform_.translation_;
+	//worldTransformAttack_.translation_.x = worldTransform_.translation_.x + 1.0f;
 
 	camera_ = camera;
+
+	Attack_model_ = Model::CreateFromOBJ("attack_effect");
 }
 
 // 移動入力
@@ -368,7 +371,11 @@ void Player ::Update() {
 	// 移動入力
 	InputMove();
 
+
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	    worldTransformAttack_.translation_.x = worldTransform_.translation_.x + 1.0f;
+		worldTransformAttack_.translation_.y = worldTransform_.translation_.y;
+		worldTransformAttack_.translation_.z = worldTransform_.translation_.z;
 		isAttack_ = 1;
 	}
 
@@ -378,9 +385,8 @@ void Player ::Update() {
 			isAttack_ = 0;
 			attackTimer_ = 0;
 		}
+		WorldTransformUpdate(worldTransformAttack_);
 	}
-
-	worldTransformAttack_.translation_ = worldTransform_.translation_;
 
 	// 衝突情報を初期化
 	CollisionMapInfo collisionMapInfo = {};
@@ -423,10 +429,13 @@ void Player ::Update() {
 void Player ::Draw() {
 	// モデル描画
 	model_->Draw(worldTransform_, *camera_);
+	if (isAttack_) {
+	    Attack_model_->Draw(worldTransformAttack_, *camera_);
+	}
 }
 
 // ワールド座標を取得
-Vector3 Player::GetWorldPosition() {
+Vector3 Player::GetWorldPosition() const{
 
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得（ワールド座標）
@@ -448,9 +457,28 @@ AABB Player::GetAABB() {
 	return aabb;
 }
 
+AABB Player::GetAttackAABB() {
+
+	Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb;
+
+	aabb.min = {(worldPos.x - kWidth / 2.0f) + 1.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {(worldPos.x + kWidth / 2.0f) + 1.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
 void Player::OnCollision(const Enemy* enemy) {
 	// 不使用
 	(void)enemy;
 
 	isDead_ = true;
+}
+
+void Player::OnAttackCollision(const Enemy* enemy) {
+	// 不使用
+	(void)enemy;
+
+	isDead_ = false;
 }

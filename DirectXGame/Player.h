@@ -52,12 +52,16 @@ public:
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
 	// ワールド座標を取得
-	Vector3 GetWorldPosition() /* const*/;
+	Vector3 GetWorldPosition()  const;
 
 	AABB GetAABB();
 
+	AABB GetAttackAABB();
+
 	// 衝突応答
 	void OnCollision(const Enemy* enemy);
+
+	void OnAttackCollision(const Enemy* enemy);
 
 	// デスフラグ
 	bool IsDead() const { return isDead_; }
@@ -94,7 +98,7 @@ private:
 	Camera* camera_ = nullptr;
 
 	int attackTimer_ = 0;
-	int attackLimitTimer_ = 60;
+	int attackLimitTimer_ = 30;
 
 	// 移動量
 	Vector3 velocity_ = {};
@@ -162,4 +166,6 @@ private:
 	static inline const float kAttenuationWall = 0.2f;
 	// デスフラグ
 	bool isDead_ = false;
+
+	Model* Attack_model_ = nullptr;
 };
