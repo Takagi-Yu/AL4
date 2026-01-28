@@ -20,7 +20,6 @@ void Player::Initialize(Model* model, Camera* camera, const Vector3& position) {
 
 	worldTransformAttack_.Initialize();
 	worldTransformAttack_.translation_ = worldTransform_.translation_;
-	//worldTransformAttack_.translation_.x = worldTransform_.translation_.x + 1.0f;
 
 	camera_ = camera;
 

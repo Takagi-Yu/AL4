@@ -118,4 +118,6 @@ private:
 	Model* modelPose_;
 	float kPoseFontScale_ = 0.0f;
 
+	Model* modelGoal_;
+
 };

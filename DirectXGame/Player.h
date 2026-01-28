@@ -19,24 +19,8 @@ public:
 	// 角 
 	enum Corner { kRightBottom, kLeftBottom, kRightTop, kLeftTop, kNumCorner };
 
-	//// 振るまい
-	//enum class Behavior {
-	//	kUnknown = -1,
-	//	kRoot,   // 通常状態
-	//	kAttack, // 攻撃中
-	//};
-
-	//// 攻撃フェーズ
-	//enum class AttackPhase {
-	//	kUnknown = -1, // 無効な状態
-
-	//	kAnticipation, // 予備動作
-	//	kAction,       // 前進動作
-	//	kRecovery,     // 余韻動作
-	//};
-
 	/// 初期化
-	void Initialize(Model* model /*, Model* modelAttack*/, Camera* camera, const Vector3& position);
+	void Initialize(Model* model, Camera* camera, const Vector3& position);
 
 	/// 更新
 	void Update();
@@ -69,24 +53,6 @@ public:
 	int isAttack_ = 0;
 	Vector3 attackPosition_ = {};
 	WorldTransform worldTransformAttack_;
-
-	//// 通常行動更新
-	//void BehaviorRootUpdate();
-
-	//// 攻撃行動更新
-	//void BehaviorAttackUpdate();
-
-	//// 通常行動初期化
-	//void BehaviorRootInitialize();
-
-	//// 攻撃行動初期化
-	//void BehaviorAttackInitialize();
-
-	//bool IsAttack() const { return behavior_ == Behavior::kAttack && attackPhase_ == AttackPhase::kAction; }
-
-	//bool IsCollisionDisabled() const { return isCollisionDisabled_; }
-
-	//void SetPosition(const Vector3& pos);
 
 	// ワールド変換データ
 	WorldTransform worldTransform_;

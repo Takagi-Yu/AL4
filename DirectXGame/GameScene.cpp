@@ -42,6 +42,11 @@ GameScene::~GameScene() {
 	for (HitEffect* hitEffect : hitEffects_) {
 		delete hitEffect;
 	}
+
+	delete modelPose_;
+	delete modelTitle_;
+
+	delete modelGoal_;
 }
 
 void GameScene::Initialize() {
@@ -83,10 +88,7 @@ void GameScene::Initialize() {
 
 	player_->SetMapChipField(mapChipField_);
 
-	// プレイヤ攻撃エフェクト
-	//Attack_model_ = Model::CreateFromOBJ("attack_effect");
-
-	player_->Initialize(player_model_ /*, modelAttack_*/, &camera_, playerPosition);
+	player_->Initialize(player_model_, &camera_, playerPosition);
 
 	CController_ = new CameraController(); // 生成
 	CController_->Initialize(&camera_);    // 初期化
@@ -133,6 +135,8 @@ void GameScene::Initialize() {
 	worldTransformTitle_.Initialize();
 	worldTransformTitle_.scale_ = {0.5f, 0.5f, 0.5f};
 	worldTransformTitle_.translation_ = {12.0f, 8.0f, 18.0f};
+
+	modelGoal_ = Model::CreateFromOBJ("goal", true);
 }
 
 void GameScene::ChangePhase() {
@@ -379,10 +383,6 @@ void GameScene::Draw() {
 	if (!player_->IsDead())
 		player_->Draw();
 
-	//if (player_->isAttack_) {
-	//	Attack_model_->Draw(player_->GetWorldTransform(), camera_);
-	//}
-
 	// 天球描画
 	skydome_->Draw();
 
@@ -464,7 +464,7 @@ void GameScene::CheckAllCollisions() {
 
 			// AABB同士の交差判定
 			if (IsCollision(aabb1, aabb2)) {
-				// 自キャラの衝突時コールバックを呼び出す
+				// 自キャラの攻撃の衝突時コールバックを呼び出す
 				player_->OnAttackCollision(enemy);
 				// 敵弾の衝突時コールバックを呼び出す
 				enemy->OnCollision(player_);
