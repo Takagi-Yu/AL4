@@ -46,7 +46,6 @@ GameScene::~GameScene() {
 	delete modelPose_;
 	delete modelTitle_;
 
-	delete modelGoal_;
 }
 
 void GameScene::Initialize() {
@@ -136,7 +135,6 @@ void GameScene::Initialize() {
 	worldTransformTitle_.scale_ = {0.5f, 0.5f, 0.5f};
 	worldTransformTitle_.translation_ = {12.0f, 8.0f, 18.0f};
 
-	modelGoal_ = Model::CreateFromOBJ("goal", true);
 }
 
 void GameScene::ChangePhase() {
