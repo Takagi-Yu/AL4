@@ -45,7 +45,6 @@ GameScene::~GameScene() {
 
 	delete modelPose_;
 	delete modelTitle_;
-
 }
 
 void GameScene::Initialize() {
